@@ -19,6 +19,6 @@ public class Student extends Person {
     @JoinColumn(name = "class_id")
     private ClassRoom classRoom;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "attendance", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
     private Set<Attendance> attendances;
 }
