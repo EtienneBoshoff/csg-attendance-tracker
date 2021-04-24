@@ -31,7 +31,6 @@ ALTER TABLE student ADD CONSTRAINT fk_class_room_student FOREIGN KEY (class_id) 
 CREATE TABLE attendance (
     id              INTEGER IDENTITY PRIMARY KEY,
     created_date    DATE,
-    created_time    TIMESTAMP,
     status          VARCHAR,
     student_id      INTEGER NOT NULL
 );
