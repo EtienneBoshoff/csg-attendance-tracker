@@ -17,7 +17,7 @@
     </table>
   
     <a th:href="@{{id}/edit(id=${teacher.id})}" class="btn btn-default">Edit Teacher</a>
-    <a th:href="@{{id}/classRoom/new(id=${teacher.id})}" class="btn btn-default">Add New Class Room</a>
+    <a th:href="@{{id}/classrooms/new(id=${teacher.id})}" class="btn btn-default">Add New Class Room</a>
     <br />
     <br />
     <br />
@@ -38,10 +38,10 @@
         </td>
         <td valign="top">
               <td><a
-                th:href="@{{teacherId}/classRoom/{classId}/edit(teacherId=${teacher.id},classId=${classRoom.id})}">Edit
+                th:href="@{{teacherId}/classrooms/{classId}/edit(teacherId=${teacher.id},classId=${classRoom.id})}">Edit
                   ClassRoom</a></td>
               <td><a
-                th:href="@{{teacherId}/classRoom/{classId}/students/new(teacherId=${teacher.id},classId=${classRoom.id})}">Add
+                th:href="@{{teacherId}/classrooms/{classId}/students/new(teacherId=${teacher.id},classId=${classRoom.id})}">Add
                   Student</a></td>
             </tr>
           </table>
