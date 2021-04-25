@@ -22,7 +22,7 @@ CREATE INDEX class_room_grade ON class_room (grade);
 CREATE TABLE student (
     id          INTEGER IDENTITY PRIMARY KEY,
     first_name  VARCHAR(30),
-    surname   VARCHAR(30),
+    surname     VARCHAR(30),
     class_id    INTEGER NOT NULL
 );
 
@@ -31,7 +31,7 @@ ALTER TABLE student ADD CONSTRAINT fk_class_room_student FOREIGN KEY (class_id) 
 CREATE TABLE attendance (
     id              INTEGER IDENTITY PRIMARY KEY,
     created_date    DATE,
-    status          VARCHAR,
+    status          VARCHAR(30),
     student_id      INTEGER NOT NULL
 );
 ALTER TABLE attendance ADD CONSTRAINT fk_student_attendance FOREIGN KEY (student_id) REFERENCES student (id);
