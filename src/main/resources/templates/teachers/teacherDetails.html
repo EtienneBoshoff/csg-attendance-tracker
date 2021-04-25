@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'teachers')}">
+
+  <body>
+  
+  
+    <h2>Teacher Information</h2>
+  
+  
+    <table class="table table-striped" th:object="${teacher}">
+      <tr>
+        <th>Name</th>
+        <td><b th:text="*{firstName + ' ' + surname}"></b></td>
+      </tr>
+    </table>
+  
+    <a th:href="@{{id}/edit(id=${teacher.id})}" class="btn btn-default">Edit Teacher</a>
+    <a th:href="@{{id}/classRoom/new(id=${teacher.id})}" class="btn btn-default">Add New Class Room</a>
+    <br />
+    <br />
+    <br />
+    <h2>ClassRooms</h2>
+  
+    <table class="table table-striped">
+  
+      <tr th:each="classRoom : ${teacher.classes}">
+        <td valign="top">
+          <dl class="dl-horizontal">
+            <dt>Name</dt>
+            <dd th:text="${classRoom.name}"></dd>
+            <dt>Grade</dt>
+            <dd th:text="${classRoom.grade}"></dd>
+            <dt>Total Students</dt>
+            <dd th:text="${classRoom.students.size()}"></dd>
+          </dl>
+        </td>
+        <td valign="top">
+              <td><a
+                th:href="@{{teacherId}/classRoom/{classId}/edit(teacherId=${teacher.id},classId=${classRoom.id})}">Edit
+                  ClassRoom</a></td>
+              <td><a
+                th:href="@{{teacherId}/classRoom/{classId}/students/new(teacherId=${teacher.id},classId=${classRoom.id})}">Add
+                  Student</a></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+  
+    </table>
+  
+  </body>
+
+</html>

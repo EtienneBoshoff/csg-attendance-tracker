@@ -1,11 +1,13 @@
 package interview.testing.csg.attendancetracker.teacher;
 
-import interview.testing.csg.attendancetracker.classroom.ClassRoom;
+import interview.testing.csg.attendancetracker.classrooms.ClassRoom;
 import interview.testing.csg.attendancetracker.model.Person;
+import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PropertyComparator;
 
 import javax.persistence.*;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A simple business object representing a teacher
@@ -19,12 +21,28 @@ public class Teacher extends Person {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
     private Set<ClassRoom> classes;
 
-    public Set<ClassRoom> getClasses() {
-        return classes;
+    public List<ClassRoom> getClasses() {
+        List<ClassRoom> sortedClassRooms = new ArrayList<>(getClassRoomsInternal());
+        PropertyComparator.sort(sortedClassRooms, new MutableSortDefinition("name", true, true));
+        return Collections.unmodifiableList(sortedClassRooms);
     }
 
-    public void setClasses(Set<ClassRoom> classes) {
+    protected Set<ClassRoom> getClassRoomsInternal() {
+        if (this.classes == null) {
+            this.classes = new HashSet<>();
+        }
+        return this.classes;
+    }
+
+    protected void setClassRoomsInternal(Set<ClassRoom> classes) {
         this.classes = classes;
+    }
+
+    public void addClassRoom(ClassRoom classRoom) {
+        if (classRoom.isNew()) {
+            getClassRoomsInternal().add(classRoom);
+        }
+        classRoom.setTeacher(this);
     }
 
     @Override
@@ -34,17 +52,17 @@ public class Teacher extends Person {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Teacher)) return false;
-        if (!super.equals(o)) return false;
-        Teacher teacher = (Teacher) o;
-        return Objects.equals(getClasses(), teacher.getClasses());
-    }
+    public ClassRoom getClassRoom(String name, String grade, boolean ignoreIfNew) {
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), getClasses());
+        for (ClassRoom classRoom : getClassRoomsInternal()) {
+            if (ignoreIfNew || BooleanUtils.isFalse(classRoom.isNew())) {
+                String nameToCompare = classRoom.getName().toLowerCase().trim();
+                String gradeToCompare = classRoom.getGrade().toLowerCase().trim();
+                if (nameToCompare.equals(name.toLowerCase().trim()) && gradeToCompare.equals(grade.toLowerCase().trim())) {
+                    return classRoom;
+                }
+            }
+        }
+        return null;
     }
 }

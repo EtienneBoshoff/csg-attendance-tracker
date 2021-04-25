@@ -1,0 +1,23 @@
+<html xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'classrooms')}">
+
+<body>
+
+  <h2>Owner</h2>
+  <form th:object="${classroom}" class="form-horizontal" id="add-owner-form" method="post">
+    <div class="form-group has-feedback">
+      <input
+        th:replace="~{fragments/inputField :: input ('Class Name', 'name', 'text')}" />
+      <input
+        th:replace="~{fragments/inputField :: input ('Grade', 'grade', 'text')}" />
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button
+          th:with="text=${classroom['new']} ? 'Add Class Room' : 'Update Class Room'"
+          class="btn btn-default" type="submit" th:text="${text}">Add Class Room</button>
+      </div>
+    </div>
+  </form>
+</body>
+</html>
