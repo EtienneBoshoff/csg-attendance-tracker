@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * @author Etienne Boshoff
  */
 
 @Controller
-@RequestMapping("teacher/{teacherId}/classroom/{classId}")
 public class StudentController {
 
     private static final String VIEWS_STUDENT_CREATE_OR_UPDATE_FORM = "students/createOrUpdateStudentForm";
@@ -41,7 +41,7 @@ public class StudentController {
         return Arrays.asList(Status.values());
     }
 
-    @ModelAttribute
+    @ModelAttribute("classRoom")
     public ClassRoom findClassRoom(@PathVariable("classId") int classRoomId) {
         return classRooms.findById(classRoomId);
     }
@@ -51,7 +51,7 @@ public class StudentController {
         dataBinder.setDisallowedFields("id");
     }
 
-    @GetMapping("/students/new")
+    @GetMapping("teacher/{teacherId}/classroom/{classId}/students/new")
     public String initCreationForm(ClassRoom classRoom, ModelMap model) {
         Student student = new Student();
         classRoom.addStudent(student);
@@ -59,7 +59,16 @@ public class StudentController {
         return VIEWS_STUDENT_CREATE_OR_UPDATE_FORM;
     }
 
-    @PostMapping("/students/new")
+    @GetMapping("teacher/{teacherId}/classroom/{classId}/students/list")
+    public String listStudentsForm(@PathVariable("classId") int classId, Map<String, Object> model) {
+        ClassRoom detailedClassRoom = this.classRooms.findById(classId);
+        Collection<Student> results = detailedClassRoom.getStudents();
+
+        model.put("selections", results);
+        return "classrooms/classList";
+    }
+
+    @PostMapping("teacher/{teacherId}/classroom/{classId}/students/new")
     public String processStudentAddForm(ClassRoom classRoom, Student student, BindingResult result, ModelMap model) {
         if (hasNameAndSurname(student)
                 && student.isNew()
@@ -79,14 +88,14 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/students/{studentId}/edit")
+    @GetMapping("teacher/{teacherId}/classroom/{classId}/students/{studentId}/edit")
     public String setUpUpdateForm(@PathVariable("studentId") int studentId, ModelMap model) {
         Student student = this.students.findById(studentId);
         model.put("student", student);
         return VIEWS_STUDENT_CREATE_OR_UPDATE_FORM;
     }
 
-    @PostMapping("/students/{studentId}/edit")
+    @PostMapping("teacher/{teacherId}/classroom/{classId}/students/{studentId}/edit")
     public String processStudentRegisterForm(Student student, BindingResult result, ClassRoom classRoom, ModelMap model) {
         if (hasNameAndSurname(student)) {
             result.rejectValue("firstName", "duplicate", "already exists");

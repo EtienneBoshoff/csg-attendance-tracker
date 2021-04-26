@@ -45,17 +45,10 @@ public class Teacher extends Person {
         classRoom.setTeacher(this);
     }
 
-    @Override
-    public String toString() {
-        return "Teacher{" +
-                "classes=" + classes +
-                '}';
-    }
-
     public ClassRoom getClassRoom(String name, String grade, boolean ignoreIfNew) {
 
         for (ClassRoom classRoom : getClassRoomsInternal()) {
-            if (ignoreIfNew || BooleanUtils.isFalse(classRoom.isNew())) {
+            if (BooleanUtils.isFalse(ignoreIfNew) || BooleanUtils.isFalse(classRoom.isNew())) {
                 String nameToCompare = classRoom.getName().toLowerCase().trim();
                 String gradeToCompare = classRoom.getGrade().toLowerCase().trim();
                 if (nameToCompare.equals(name.toLowerCase().trim()) && gradeToCompare.equals(grade.toLowerCase().trim())) {

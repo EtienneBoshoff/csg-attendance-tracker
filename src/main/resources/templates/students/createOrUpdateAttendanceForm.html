@@ -1,0 +1,58 @@
+<html xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'teachers')}">
+
+<body>
+
+  <h2>
+    <th:block th:if="${attendances['new']}">New </th:block>
+    Attendance
+  </h2>
+
+  <b>Pet</b>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Class Room</th>
+        <th>Teacher</th>
+      </tr>
+    </thead>
+    <tr>
+      <td th:text="${student.firstName + ' ' + student.surname}"></td>
+      <td th:text="${student.classroom.name + ' ' + student.classroom.grade}"></td>
+      <td
+        th:text="${student.classroom.teacher?.firstName + ' ' + student.classroom.teacher?.lastName}"></td>
+    </tr>
+  </table>
+
+  <form th:object="${attendance}" class="form-horizontal" method="post">
+    <div class="form-group has-feedback">
+      <input
+        th:replace="~{fragments/inputField :: input ('Date', 'dateTime', 'date')}"  />
+      <input
+        th:replace="~{fragments/inputField :: input ('Description', 'description', 'text')}" />
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <input type="hidden" name="petId" th:value="${pet.id}" />
+        <button class="btn btn-default" type="submit">Add Visit</button>
+      </div>
+    </div>
+  </form>
+
+  <br />
+  <b>Previous Attendances</b>
+  <table class="table table-striped">
+    <tr>
+      <th>Date</th>
+      <th>Description</th>
+    </tr>
+    <tr th:if="${!attendance['new']}" th:each="attendance : ${student.attendances}">
+      <td th:text="${#temporals.format(attendance.dateTime, 'yyyy-MM-dd')}"></td>
+      <td th:text=" ${attendance.status}"></td>
+    </tr>
+  </table>
+
+</body>
+</html>

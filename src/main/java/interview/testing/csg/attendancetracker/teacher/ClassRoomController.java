@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/teachers/{teacherId}")
 public class ClassRoomController {
 
     private static final String VIEWS_CLASS_ROOM_CREATE_OR_UPDATE_FORM = "classrooms/createOrUpdateClassRoomForm";
@@ -37,7 +36,7 @@ public class ClassRoomController {
         dataBinder.setDisallowedFields("id");
     }
 
-    @GetMapping("/classrooms/new")
+    @GetMapping("/teachers/{teacherId}/classrooms/new")
     public String initCreationForm(Teacher teacher, ModelMap model) {
         ClassRoom classRoom = new ClassRoom();
         teacher.addClassRoom(classRoom);
@@ -45,7 +44,7 @@ public class ClassRoomController {
         return VIEWS_CLASS_ROOM_CREATE_OR_UPDATE_FORM;
     }
 
-    @PostMapping("/classrooms/new")
+    @PostMapping("/teachers/{teacherId}/classrooms/new")
     public String processCreateClassRoomForm(Teacher teacher, @Valid ClassRoom classRoom, BindingResult result, ModelMap model) {
         if (hasNameAndGrade(classRoom) && classRoom.isNew() && teacher.getClassRoom(classRoom.getName(), classRoom.getGrade(), true) != null) {
             result.rejectValue("name", "duplicate", "already exists");
@@ -61,14 +60,14 @@ public class ClassRoomController {
         }
     }
 
-    @GetMapping("/classrooms/{classId}/edit")
+    @GetMapping("/teachers/{teacherId}/classrooms/{classId}/edit")
     public String initUpdateForm(@PathVariable("classId") int classRoomId, ModelMap model) {
         ClassRoom classRoom = this.classes.findById(classRoomId);
         model.put("classroom", classRoom);
         return VIEWS_CLASS_ROOM_CREATE_OR_UPDATE_FORM;
     }
 
-    @PostMapping("/classrooms/{classId}/edit")
+    @PostMapping("/teachers/{teacherId}/classrooms/{classId}/edit")
     public String processUpdateForm(ClassRoom classRoom, BindingResult result, Teacher teacher, ModelMap model) {
         if (BooleanUtils.isFalse(hasNameAndGrade(classRoom))) {
             classRoom.setTeacher(teacher);

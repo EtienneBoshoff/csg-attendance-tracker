@@ -38,11 +38,11 @@
         </td>
         <td valign="top">
               <td><a
-                th:href="@{{teacherId}/classrooms/{classId}/edit(teacherId=${teacher.id},classId=${classRoom.id})}">Edit
-                  ClassRoom</a></td>
+                th:href="@{{teacherId}/classrooms/{classId}/edit(teacherId=${teacher.id},classId=${classRoom.id})}">Edit Class Room</a></td>
               <td><a
-                th:href="@{{teacherId}/classrooms/{classId}/students/new(teacherId=${teacher.id},classId=${classRoom.id})}">Add
-                  Student</a></td>
+                th:href="@{{teacherId}/classrooms/{classId}/students/new(teacherId=${teacher.id},classId=${classRoom.id})}">Add Student</a></td>
+              <td><a
+                th:href="@{{teacherId}/classrooms/{classId}/students/list(teacherId=${teacher.id},classId=${classRoom.id})}">View Students</a></td>
             </tr>
           </table>
         </td>

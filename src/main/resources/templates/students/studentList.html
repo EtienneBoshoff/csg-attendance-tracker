@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'teachers')}">
+
+  <body>
+
+    <h2>Students</h2>
+
+    <table id="teachers" class="table table-striped">
+        <thead>
+        <tr>
+            <th style="width: 150px;">Name</th>
+            <th>Surname</th>
+            <th>Attendances</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr th:each="student : ${selections}">
+              <td>
+                  <dt>Name</dt>
+                  <dd th:text="${student.firstName}"></dd>
+              </td>
+              <td>
+                  <dt>Surname</dt>
+                  <dd th:text="${student.surname}"></dd>
+              </td>
+              <td><a th:href="@{{teacherId}/attendance/new(teacherId=${teacher.id})}">Mark Attendance</a></td>
+          </tr>
+        </tbody>
+    </table>
+
+  </body>
+</html>

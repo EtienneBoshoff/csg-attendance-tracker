@@ -4,7 +4,6 @@ import interview.testing.csg.attendancetracker.attendance.Attendance;
 import interview.testing.csg.attendancetracker.attendance.AttendanceRepository;
 import interview.testing.csg.attendancetracker.student.Student;
 import interview.testing.csg.attendancetracker.student.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -20,7 +19,6 @@ public class AttendanceController {
 
     private final StudentRepository students;
 
-    @Autowired
     public AttendanceController(AttendanceRepository attendances, StudentRepository students) {
         this.attendances = attendances;
         this.students = students;
